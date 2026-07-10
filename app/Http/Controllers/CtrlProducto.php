@@ -145,7 +145,7 @@ class CtrlProducto extends Controller
         $tipo = $request->query('tipo', 'ventas');
         if ($tipo === 'inventario' || $tipo === 'stock') {
             return response()->json(['ok' => true, 'data' => [
-                'columns' => ['Codigo', 'Producto', 'Categoria', 'Stock Actual', 'Stock Min.', 'Estado'],
+                'columns' => ['Código', 'Producto', 'Categoría', 'Stock Actual', 'Stock Mín.', 'Estado'],
                 'keys' => ['codigo', 'nombre', 'categoria', 'stock_actual', 'stock_minimo', 'estado'],
                 'summary' => [],
                 'rows' => $this->inventario()->getData(true)['data']['productos'],

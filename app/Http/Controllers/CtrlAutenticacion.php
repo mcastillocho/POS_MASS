@@ -13,7 +13,7 @@ class CtrlAutenticacion extends Controller
     {
         $usuario = Usuario::with(['rol', 'tienda'])->where('username', $request->input('username'))->first();
         if (!$usuario || $usuario->estado !== 'activo' || !Hash::check((string) $request->input('password'), $usuario->password_hash)) {
-            return response()->json(['ok' => false, 'message' => 'Usuario o contrasena incorrectos'], 401);
+            return response()->json(['ok' => false, 'message' => 'Usuario o contraseña incorrectos'], 401);
         }
 
         return response()->json(['ok' => true, 'user' => [
@@ -31,6 +31,6 @@ class CtrlAutenticacion extends Controller
 
     public function logout(): JsonResponse
     {
-        return response()->json(['ok' => true, 'message' => 'Sesion cerrada']);
+        return response()->json(['ok' => true, 'message' => 'Sesión cerrada']);
     }
 }

@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.4.3, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: MASS.sql
+-- Host: 127.0.0.1    Database: mass
 -- ------------------------------------------------------
 -- Server version	8.4.3
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `MASS.sql`
+-- Current Database: `mass`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `MASS.sql` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mass` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `MASS.sql`;
+USE `mass`;
 
 --
 -- Table structure for table `auditorias`

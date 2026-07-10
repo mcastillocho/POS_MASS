@@ -19,7 +19,7 @@
       <input type="text" id="login-user" placeholder="Ingresa tu usuario" autocomplete="username">
     </div>
     <div class="field-group">
-      <label>Contrasena</label>
+      <label>Contraseña</label>
       <input type="password" id="login-pass" placeholder="********" autocomplete="current-password">
     </div>
     <button class="btn-login" id="btn-login-submit">Ingresar al sistema</button>
@@ -54,7 +54,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         Punto de Venta
       </div>
-      <div class="nav-section">Gestin</div>
+      <div class="nav-section">Gestión</div>
       <div class="nav-item" data-page="productos">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         Productos
@@ -80,14 +80,14 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Empleados
       </div>
-      <div class="nav-section">Anlisis</div>
+      <div class="nav-section">Análisis</div>
       <div class="nav-item" data-page="reportes">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         Reportes
       </div>
       <div class="nav-item" data-page="auditoria">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-        Auditora
+        Auditoría
       </div>
       <div class="nav-section">Sistema</div>
       <div class="nav-item" data-page="usuarios">
@@ -96,7 +96,7 @@
       </div>
     </nav>
     <div class="sidebar-footer">
-      <button class="btn-logout" id="btn-logout"> Cerrar sesin</button>
+      <button class="btn-logout" id="btn-logout"> Cerrar sesión</button>
     </div>
   </aside>
 
@@ -128,19 +128,19 @@
             <div class="kpi-sub">soles</div>
           </div>
           <div class="kpi-card yellow">
-            <div class="kpi-label">Stock Crtico</div>
+            <div class="kpi-label">Stock Crítico</div>
             <div class="kpi-value yellow" id="kpi-critico"></div>
             <div class="kpi-sub">productos</div>
           </div>
           <div class="kpi-card blue">
             <div class="kpi-label">Productos Activos</div>
             <div class="kpi-value blue" id="kpi-productos"></div>
-            <div class="kpi-sub">en catlogo</div>
+            <div class="kpi-sub">en catálogo</div>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
           <div class="card">
-            <div class="card-title"> Ventas  ltimos 7 das</div>
+            <div class="card-title">Ventas últimos 7 días</div>
             <div id="chart-ventas" class="chart-bar-wrap"></div>
           </div>
           <div class="card">
@@ -158,12 +158,12 @@
               <div class="section-title">Punto de Venta</div>
               <div class="search-bar" style="width:240px">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input type="text" placeholder="Cdigo o nombre..." id="pos-search">
+                <input type="text" placeholder="Código o nombre..." id="pos-search">
               </div>
             </div>
             <div class="table-wrap">
               <table>
-                <thead><tr><th>Cdigo</th><th>Producto</th><th>Categora</th><th>Precio</th><th>Stock</th><th></th></tr></thead>
+                <thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th></th></tr></thead>
                 <tbody id="pos-table"></tbody>
               </table>
             </div>
@@ -181,7 +181,7 @@
               <div class="pos-total-row"><span>IGV (18%)</span><span id="cart-igv">S/ 0.00</span></div>
               <div class="pos-total-row main"><span>TOTAL</span><span id="cart-total">S/ 0.00</span></div>
               <div class="form-field" style="margin:12px 0 8px">
-                <label>Mtodo de pago</label>
+                <label>Método de pago</label>
                 <select id="pos-metodo">
                   <option value="efectivo">Efectivo</option>
                   <option value="tarjeta">Tarjeta</option>
@@ -207,7 +207,7 @@
       
       <div class="page" id="page-productos">
         <div class="section-header">
-          <div class="section-title">Gestin de Productos</div>
+          <div class="section-title">Gestión de Productos</div>
           <button class="btn btn-primary" id="btn-nuevo-producto">+ Nuevo Producto</button>
         </div>
         <div class="filters-bar">
@@ -216,12 +216,12 @@
             <input type="text" placeholder="Buscar producto..." id="prod-search">
           </div>
           <select id="prod-cat-filter" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
-            <option value="">Todas las categoras</option>
+            <option value="">Todas las categorías</option>
           </select>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Cdigo</th><th>Producto</th><th>Categora</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
             <tbody id="prod-table"></tbody>
           </table>
         </div>
@@ -236,7 +236,7 @@
         <div id="inv-alertas-wrap" style="margin-bottom:16px"></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Cdigo</th><th>Producto</th><th>Categora</th><th>Stock Actual</th><th>Stock Mn.</th><th>Estado</th></tr></thead>
+            <thead><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Stock Actual</th><th>Stock Mín.</th><th>Estado</th></tr></thead>
             <tbody id="inv-table"></tbody>
           </table>
         </div>
@@ -270,7 +270,7 @@
       
       <div class="page" id="page-clientes">
         <div class="section-header">
-          <div class="section-title">Gestin de Clientes</div>
+          <div class="section-title">Gestión de Clientes</div>
           <button class="btn btn-primary" id="btn-nuevo-cliente">+ Nuevo Cliente</button>
         </div>
         <div class="filters-bar">
@@ -281,7 +281,7 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Nombres</th><th>Apellidos</th><th>DNI/RUC</th><th>Telfono</th><th>Correo</th></tr></thead>
+            <thead><tr><th>Nombres</th><th>Apellidos</th><th>DNI/RUC</th><th>Teléfono</th><th>Correo</th></tr></thead>
             <tbody id="cli-table"></tbody>
           </table>
         </div>
@@ -290,12 +290,12 @@
       
       <div class="page" id="page-proveedores">
         <div class="section-header">
-          <div class="section-title">Gestin de Proveedores</div>
+          <div class="section-title">Gestión de Proveedores</div>
           <button class="btn btn-primary" id="btn-nuevo-proveedor">+ Nuevo Proveedor</button>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Nombre</th><th>RUC</th><th>Razn Social</th><th>Telfono</th><th>Correo</th></tr></thead>
+            <thead><tr><th>Nombre</th><th>RUC</th><th>Razón Social</th><th>Teléfono</th><th>Correo</th></tr></thead>
             <tbody id="prov-table"></tbody>
           </table>
         </div>
@@ -304,7 +304,7 @@
       
       <div class="page" id="page-empleados">
         <div class="section-header">
-          <div class="section-title">Gestin de Empleados</div>
+          <div class="section-title">Gestión de Empleados</div>
           <button class="btn btn-primary" id="btn-nuevo-empleado">+ Nuevo Empleado</button>
         </div>
         <div class="table-wrap">
@@ -323,7 +323,7 @@
         <div class="filters-bar">
           <select id="rep-tipo" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
             <option value="ventas">Reporte de Ventas</option>
-            <option value="productos">Productos ms Vendidos</option>
+            <option value="productos">Productos más Vendidos</option>
             <option value="stock">Reporte de Stock</option>
           </select>
           <input type="date" id="rep-desde" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
@@ -343,14 +343,14 @@
       
       <div class="page" id="page-auditoria">
         <div class="section-header">
-          <div class="section-title">Registro de Auditora</div>
+          <div class="section-title">Registro de Auditoría</div>
         </div>
         <div class="filters-bar">
           <input type="date" id="aud-desde" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
           <input type="date" id="aud-hasta" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
           <select id="aud-modulo" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
-            <option value="">Todos los mdulos</option>
-            <option value="Autenticacin">Autenticacin</option>
+            <option value="">Todos los módulos</option>
+            <option value="Autenticación">Autenticación</option>
             <option value="Productos">Productos</option>
             <option value="Inventario">Inventario</option>
             <option value="Ventas">Ventas</option>
@@ -361,7 +361,7 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Fecha / Hora</th><th>Mdulo</th><th>Accin</th><th>Usuario</th><th>IP</th><th>Descripcin</th></tr></thead>
+            <thead><tr><th>Fecha / Hora</th><th>Módulo</th><th>Acción</th><th>Usuario</th><th>IP</th><th>Descripción</th></tr></thead>
             <tbody id="aud-table"></tbody>
           </table>
         </div>
@@ -370,7 +370,7 @@
       
       <div class="page" id="page-usuarios">
         <div class="section-header">
-          <div class="section-title">Administracin de Usuarios</div>
+          <div class="section-title">Administración de Usuarios</div>
           <button class="btn btn-primary" id="btn-nuevo-usuario">+ Nuevo Usuario</button>
         </div>
         <div class="table-wrap">
@@ -395,14 +395,14 @@
       <button class="modal-close"></button>
     </div>
     <div class="form-grid">
-      <div class="form-field"><label>Cdigo *</label><input type="text" id="prod-codigo" placeholder="BEB001"></div>
+      <div class="form-field"><label>Código *</label><input type="text" id="prod-codigo" placeholder="BEB001"></div>
       <div class="form-field"><label>Nombre *</label><input type="text" id="prod-nombre" placeholder="Nombre del producto"></div>
       <div class="form-field"><label>Precio (S/) *</label><input type="number" id="prod-precio" step="0.01" placeholder="0.00"></div>
-      <div class="form-field"><label>Stock Mnimo</label><input type="number" id="prod-stock-min" value="5"></div>
-      <div class="form-field"><label>Categora *</label><select id="prod-cat-sel"></select></div>
+      <div class="form-field"><label>Stock Mínimo</label><input type="number" id="prod-stock-min" value="5"></div>
+      <div class="form-field"><label>Categoría *</label><select id="prod-cat-sel"></select></div>
       <div class="form-field"><label>Proveedor</label><select id="prod-prov-sel"><option value="">Sin asignar</option></select></div>
     </div>
-    <div class="form-field" style="margin-bottom:20px"><label>Descripcin</label><textarea id="prod-desc" rows="2" placeholder="Descripcin opcional" style="resize:vertical"></textarea></div>
+    <div class="form-field" style="margin-bottom:20px"><label>Descripción</label><textarea id="prod-desc" rows="2" placeholder="Descripción opcional" style="resize:vertical"></textarea></div>
     <input type="hidden" id="prod-edit-id">
     <div style="display:flex;gap:10px;justify-content:flex-end">
       <button class="btn btn-secondary">Cancelar</button>
@@ -429,7 +429,7 @@
       </div>
       <div class="form-field"><label>Producto *</label><select id="inv-producto-sel"></select></div>
       <div class="form-field"><label>Cantidad *</label><input type="number" id="inv-cantidad" min="1" value="1"></div>
-      <div class="form-field"><label>Motivo</label><input type="text" id="inv-motivo" placeholder="Razn del movimiento"></div>
+      <div class="form-field"><label>Motivo</label><input type="text" id="inv-motivo" placeholder="Razón del movimiento"></div>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end">
       <button class="btn btn-secondary">Cancelar</button>
@@ -449,7 +449,7 @@
       <div class="form-field"><label>Nombres *</label><input type="text" id="usr-nombres"></div>
       <div class="form-field"><label>Apellidos *</label><input type="text" id="usr-apellidos"></div>
       <div class="form-field"><label>Username *</label><input type="text" id="usr-username"></div>
-      <div class="form-field"><label>Contrasena *</label><input type="password" id="usr-password" placeholder="Mn. 6 caracteres"></div>
+      <div class="form-field"><label>Contraseña *</label><input type="password" id="usr-password" placeholder="Mín. 6 caracteres"></div>
       <div class="form-field"><label>Rol *</label><select id="usr-rol-sel"></select></div>
       <div class="form-field"><label>Tienda *</label><select id="usr-tienda-sel"></select></div>
       <div class="form-field"><label>Estado</label><select id="usr-estado"><option value="activo">Activo</option><option value="inactivo">Inactivo</option></select></div>
@@ -473,9 +473,9 @@
       <div class="form-field"><label>Nombres *</label><input type="text" id="cli-nombres"></div>
       <div class="form-field"><label>Apellidos *</label><input type="text" id="cli-apellidos"></div>
       <div class="form-field"><label>DNI</label><input type="text" id="cli-dni" maxlength="8"></div>
-      <div class="form-field"><label>Telfono</label><input type="text" id="cli-tel"></div>
+      <div class="form-field"><label>Teléfono</label><input type="text" id="cli-tel"></div>
       <div class="form-field"><label>Correo</label><input type="email" id="cli-email"></div>
-      <div class="form-field"><label>Direccin</label><input type="text" id="cli-dir"></div>
+      <div class="form-field"><label>Dirección</label><input type="text" id="cli-dir"></div>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end">
       <button class="btn btn-secondary">Cancelar</button>
@@ -494,10 +494,10 @@
     <div class="form-grid">
       <div class="form-field"><label>Nombre *</label><input type="text" id="prov-nombre"></div>
       <div class="form-field"><label>RUC *</label><input type="text" id="prov-ruc" maxlength="11"></div>
-      <div class="form-field"><label>Razn Social</label><input type="text" id="prov-razon"></div>
-      <div class="form-field"><label>Telfono</label><input type="text" id="prov-tel"></div>
+      <div class="form-field"><label>Razón Social</label><input type="text" id="prov-razon"></div>
+      <div class="form-field"><label>Teléfono</label><input type="text" id="prov-tel"></div>
       <div class="form-field"><label>Correo</label><input type="email" id="prov-email"></div>
-      <div class="form-field"><label>Direccin</label><input type="text" id="prov-dir"></div>
+      <div class="form-field"><label>Dirección</label><input type="text" id="prov-dir"></div>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end">
       <button class="btn btn-secondary">Cancelar</button>
@@ -517,7 +517,7 @@
       <div class="form-field"><label>Nombres *</label><input type="text" id="emp-nombres"></div>
       <div class="form-field"><label>Apellidos *</label><input type="text" id="emp-apellidos"></div>
       <div class="form-field"><label>DNI *</label><input type="text" id="emp-dni" maxlength="8"></div>
-      <div class="form-field"><label>Telfono</label><input type="text" id="emp-tel"></div>
+      <div class="form-field"><label>Teléfono</label><input type="text" id="emp-tel"></div>
       <div class="form-field"><label>Cargo</label><input type="text" id="emp-cargo" placeholder="Cajero, Almacenero..."></div>
       <div class="form-field"><label>Tienda *</label><select id="emp-tienda-sel"></select></div>
       <div class="form-field"><label>Fecha Ingreso</label><input type="date" id="emp-fecha"></div>

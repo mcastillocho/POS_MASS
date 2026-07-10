@@ -3,14 +3,14 @@
 
   const $ = (id) => document.getElementById(id);
   const state = { currentUser: null, cart: [], productos: [], usuarios: [], roles: [], tiendas: [], reporteData: [] };
-  const pageTitles = { dashboard:'Dashboard', pos:'Punto de Venta', productos:'Gestion de Productos', inventario:'Control de Inventario', ventas:'Consulta de Ventas', clientes:'Gestion de Clientes', proveedores:'Gestion de Proveedores', empleados:'Gestion de Empleados', reportes:'Reportes Operativos', auditoria:'Registro de Auditoria', usuarios:'Administracion de Usuarios' };
+  const pageTitles = { dashboard:'Dashboard', pos:'Punto de Venta', productos:'Gestión de Productos', inventario:'Control de Inventario', ventas:'Consulta de Ventas', clientes:'Gestión de Clientes', proveedores:'Gestión de Proveedores', empleados:'Gestión de Empleados', reportes:'Reportes Operativos', auditoria:'Registro de Auditoría', usuarios:'Administración de Usuarios' };
 
   window.$ = $;
   window.AppState = state;
   window.fmt = (n) => `S/ ${Number(n || 0).toFixed(2)}`;
   window.badge = (txt, color = 'gray') => `<span class="badge badge-${color}">${txt ?? '-'}</span>`;
   window.stockBadge = (estado) => {
-    const map = { NORMAL:['green','Normal'], BAJO:['yellow','Stock Bajo'], CRITICO:['red','Critico'] };
+    const map = { NORMAL:['green','Normal'], BAJO:['yellow','Stock Bajo'], CRITICO:['red','Crítico'] };
     const [c, t] = map[estado] || ['gray', estado || '-'];
     return badge(t, c);
   };
@@ -30,7 +30,7 @@
     if (options.body !== undefined) request.body = JSON.stringify(options.body);
     const response = await fetch(url, request);
     const payload = (response.headers.get('content-type') || '').includes('application/json') ? await response.json() : { ok: response.ok };
-    if (!response.ok || payload.ok === false) throw new Error(payload.message || 'Error de comunicacion con la API');
+    if (!response.ok || payload.ok === false) throw new Error(payload.message || 'Error de comunicación con la API');
     return payload;
   };
 
@@ -92,18 +92,18 @@
     const ventas = data.ventas_7_dias || [];
     const max = Math.max(...ventas.map((d) => Number(d.total || 0)), 1);
     $('chart-ventas').innerHTML = ventas.map((d) => `<div class="chart-bar-row"><div class="chart-bar-label">${d.dia}</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:${((Number(d.total || 0) / max) * 100).toFixed(0)}%"></div></div><div class="chart-bar-val">${fmt(d.total)}</div></div>`).join('');
-    $('alertas-stock').innerHTML = (data.alertas || []).map((a) => `<div class="stock-alert"><div class="stock-alert-icon">!</div><div class="stock-alert-info"><div class="stock-alert-name">${a.producto}</div><div class="stock-alert-detail">Stock: <strong style="color:var(--red)">${a.stock}</strong> / Minimo: ${a.min}</div></div></div>`).join('');
+    $('alertas-stock').innerHTML = (data.alertas || []).map((a) => `<div class="stock-alert"><div class="stock-alert-icon">!</div><div class="stock-alert-info"><div class="stock-alert-name">${a.producto}</div><div class="stock-alert-detail">Stock: <strong style="color:var(--red)">${a.stock}</strong> / Mínimo: ${a.min}</div></div></div>`).join('');
   };
 
   window.loadProductos = async () => {
     const { data } = await apiFetch('/api/productos');
     state.productos = (data.productos || []).map(normalizeProducto);
-    if ($('prod-cat-filter')) $('prod-cat-filter').innerHTML = '<option value="">Todas las categorias</option>' + (data.categorias || []).map((c) => `<option>${c.nombre || c.nombre_categoria}</option>`).join('');
+    if ($('prod-cat-filter')) $('prod-cat-filter').innerHTML = '<option value="">Todas las categorías</option>' + (data.categorias || []).map((c) => `<option>${c.nombre || c.nombre_categoria}</option>`).join('');
     renderProductos(state.productos);
   };
 
   function renderProductos(productos) {
-    $('prod-table').innerHTML = productos.map((p) => `<tr><td><code style="font-size:11px;background:var(--bg3);padding:3px 7px;border-radius:4px">${p.codigo}</code></td><td style="font-weight:600">${p.nombre}</td><td>${badge(p.categoria,'blue')}</td><td style="font-weight:700">${fmt(p.precio)}</td><td>${p.stock_actual}</td><td>${p.stock_actual <= p.stock_minimo ? badge('Critico','red') : badge('Normal','green')}</td><td><button class="btn btn-secondary btn-sm" data-edit-producto="${p.id_producto}">Editar</button></td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Sin resultados</td></tr>';
+    $('prod-table').innerHTML = productos.map((p) => `<tr><td><code style="font-size:11px;background:var(--bg3);padding:3px 7px;border-radius:4px">${p.codigo}</code></td><td style="font-weight:600">${p.nombre}</td><td>${badge(p.categoria,'blue')}</td><td style="font-weight:700">${fmt(p.precio)}</td><td>${p.stock_actual}</td><td>${p.stock_actual <= p.stock_minimo ? badge('Crítico','red') : badge('Normal','green')}</td><td><button class="btn btn-secondary btn-sm" data-edit-producto="${p.id_producto}">Editar</button></td></tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Sin resultados</td></tr>';
     document.querySelectorAll('[data-edit-producto]').forEach((btn) => btn.addEventListener('click', () => editProducto(Number(btn.dataset.editProducto))));
   }
 
@@ -136,7 +136,7 @@
   window.loadInventario = async () => {
     const { data } = await apiFetch('/api/inventario');
     const productos = (data.productos || []).map(normalizeProducto).map((p) => ({ ...p, estado: p.stock_actual <= p.stock_minimo ? 'CRITICO' : 'NORMAL' }));
-    $('inv-alertas-wrap').innerHTML = `<div class="stock-alert"><div class="stock-alert-icon">!</div><div><div class="stock-alert-name">${data.criticos || 0} productos con stock critico detectados</div><div class="stock-alert-detail">Revisar y reponer urgente</div></div></div>`;
+    $('inv-alertas-wrap').innerHTML = `<div class="stock-alert"><div class="stock-alert-icon">!</div><div><div class="stock-alert-name">${data.criticos || 0} productos con stock crítico detectados</div><div class="stock-alert-detail">Revisar y reponer urgente</div></div></div>`;
     $('inv-table').innerHTML = productos.map((p) => `<tr><td><code style="font-size:11px;background:var(--bg3);padding:3px 7px;border-radius:4px">${p.codigo}</code></td><td style="font-weight:600">${p.nombre}</td><td>${badge(p.categoria,'blue')}</td><td style="font-weight:700;font-size:15px">${p.stock_actual}</td><td style="color:var(--muted)">${p.stock_minimo}</td><td>${stockBadge(p.estado)}</td></tr>`).join('');
   };
 
@@ -267,10 +267,10 @@
     $('pos-search')?.addEventListener('input', (e) => { const q = e.target.value.toLowerCase(); renderPOSTable(state.productos.filter((p) => p.nombre.toLowerCase().includes(q) || p.codigo.toLowerCase().includes(q))); });
     $('cli-search')?.addEventListener('input', (e) => loadClientes(e.target.value));
     $('btn-nuevo-producto')?.addEventListener('click', async () => { $('modal-prod-title').textContent = 'Nuevo Producto'; $('prod-edit-id').value = ''; ['prod-codigo','prod-nombre','prod-precio','prod-desc'].forEach((id) => { if ($(id)) $(id).value = ''; }); if ($('prod-stock-min')) $('prod-stock-min').value = '5'; await fillProductCombos(); openModal('modal-producto'); });
-    $('btn-guardar-producto')?.addEventListener('click', async () => { const body = { id:$('prod-edit-id')?.value, codigo_barras:$('prod-codigo')?.value, descripcion:$('prod-nombre')?.value, precio_venta:$('prod-precio')?.value, stock_minimo:$('prod-stock-min')?.value, id_categoria:$('prod-cat-sel')?.value }; if (!body.codigo_barras || !body.descripcion) return toast('Codigo y nombre son requeridos','error'); await apiFetch('/api/productos', { method:'POST', body }); toast('Producto guardado correctamente'); closeModal('modal-producto'); loadProductos(); });
+    $('btn-guardar-producto')?.addEventListener('click', async () => { const body = { id:$('prod-edit-id')?.value, codigo_barras:$('prod-codigo')?.value, descripcion:$('prod-nombre')?.value, precio_venta:$('prod-precio')?.value, stock_minimo:$('prod-stock-min')?.value, id_categoria:$('prod-cat-sel')?.value }; if (!body.codigo_barras || !body.descripcion) return toast('Código y nombre son requeridos','error'); await apiFetch('/api/productos', { method:'POST', body }); toast('Producto guardado correctamente'); closeModal('modal-producto'); loadProductos(); });
     $('btn-mov-inventario')?.addEventListener('click', async () => { if (!state.productos.length) await loadProductos(); $('inv-producto-sel').innerHTML = state.productos.map((p) => `<option value="${p.id_producto}">${p.codigo} - ${p.nombre}</option>`).join(''); openModal('modal-inventario'); });
     $('btn-guardar-movimiento')?.addEventListener('click', async () => { await apiFetch('/api/inventario/movimientos', { method:'POST', body:{ id_producto:$('inv-producto-sel')?.value, tipo_movimiento:$('inv-tipo')?.value?.toUpperCase(), cantidad:$('inv-cantidad')?.value, motivo:$('inv-motivo')?.value } }); toast('Movimiento registrado'); closeModal('modal-inventario'); loadInventario(); });
-    $('btn-procesar-venta')?.addEventListener('click', async () => { if (!state.cart.length) return toast('El carrito esta vacio','error'); const { data } = await apiFetch('/api/ventas', { method:'POST', body:{ items:state.cart, metodo:$('pos-metodo')?.value, cliente:$('pos-cliente-search')?.value } }); toast(`Venta procesada - Total: ${fmt(data.total || data.total_pagar)}`); state.cart = []; renderCart(); });
+    $('btn-procesar-venta')?.addEventListener('click', async () => { if (!state.cart.length) return toast('El carrito está vacío','error'); const { data } = await apiFetch('/api/ventas', { method:'POST', body:{ items:state.cart, metodo:$('pos-metodo')?.value, cliente:$('pos-cliente-search')?.value } }); toast(`Venta procesada - Total: ${fmt(data.total || data.total_pagar)}`); state.cart = []; renderCart(); });
     $('btn-clear-cart')?.addEventListener('click', () => { state.cart = []; renderCart(); });
     $('btn-nuevo-cliente')?.addEventListener('click', () => openModal('modal-cliente'));
     $('btn-guardar-cliente')?.addEventListener('click', async () => { await apiFetch('/api/clientes', { method:'POST', body:{ nombres:$('cli-nombres')?.value, apellidos:$('cli-apellidos')?.value, dni:$('cli-dni')?.value, telefono:$('cli-tel')?.value, correo:$('cli-email')?.value, direccion:$('cli-dir')?.value } }); toast('Cliente registrado'); closeModal('modal-cliente'); loadClientes(''); });
