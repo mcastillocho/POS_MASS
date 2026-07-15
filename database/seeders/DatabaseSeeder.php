@@ -4,99 +4,118 @@ namespace Database\Seeders;
 
 use App\Models\Auditoria;
 use App\Models\Categoria;
+use App\Models\Comprobante;
+use App\Models\DetalleVenta;
+use App\Models\InventarioMovimiento;
 use App\Models\Producto;
+use App\Models\Proveedor;
 use App\Models\Rol;
 use App\Models\Tienda;
 use App\Models\Usuario;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Venta;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     public function run(): void
     {
+        $now = now();
+
         foreach ([
-            ['id_rol' => 1, 'nombre_rol' => 'Administrador', 'descripcion' => 'Control técnico integral del sistema web y configuraciones globales.'],
-            ['id_rol' => 2, 'nombre_rol' => 'Gerente', 'descripcion' => 'Gestión analítica de la tienda, revisión de mermas y reportes financieros.'],
-            ['id_rol' => 3, 'nombre_rol' => 'Cajero', 'descripcion' => 'Operación del Punto de Venta POS y emisión de comprobantes.'],
-            ['id_rol' => 4, 'nombre_rol' => 'Almacenero', 'descripcion' => 'Control de inventario, registro de entradas de camión y mermas.'],
+            ['id_rol' => 1, 'nombre_rol' => 'Administrador', 'descripcion' => 'Control integral del sistema y configuracion general.'],
+            ['id_rol' => 2, 'nombre_rol' => 'Gerente', 'descripcion' => 'Gestion de tienda, reportes, ventas e inventario.'],
+            ['id_rol' => 3, 'nombre_rol' => 'Cajero', 'descripcion' => 'Operacion del punto de venta y emision de comprobantes.'],
+            ['id_rol' => 4, 'nombre_rol' => 'Almacenero', 'descripcion' => 'Control de stock, entradas, salidas y alertas de inventario.'],
         ] as $rol) {
             Rol::updateOrCreate(['id_rol' => $rol['id_rol']], $rol);
         }
 
         foreach ([
-            ['id_tienda' => 1, 'nombre_tienda' => 'MASS Túpac Amaru', 'direccion' => 'Av. Túpac Amaru Km 11.5, Comas', 'ubigeo' => '150110', 'estado' => 'activo'],
-            ['id_tienda' => 2, 'nombre_tienda' => 'MASS Carlos Izaguirre', 'direccion' => 'Av. Carlos Izaguirre 450, Los Olivos', 'ubigeo' => '150119', 'estado' => 'activo'],
+            ['id_tienda' => 1, 'nombre_tienda' => 'MASS Tupac Amaru', 'direccion' => 'Av. Tupac Amaru Km 11.5, Comas', 'ubigeo' => '150110', 'estado' => 'activo'],
+            ['id_tienda' => 2, 'nombre_tienda' => 'MASS Carlos Izaguirre', 'direccion' => 'Av. Carlos Izaguirre 450, Los Olivos', 'ubigeo' => '150117', 'estado' => 'activo'],
             ['id_tienda' => 3, 'nombre_tienda' => 'MASS Universitaria', 'direccion' => 'Av. Universitaria 2210, San Miguel', 'ubigeo' => '150136', 'estado' => 'activo'],
         ] as $tienda) {
             Tienda::updateOrCreate(['id_tienda' => $tienda['id_tienda']], $tienda);
         }
 
-        $password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi';
+        $password = Hash::make('johnabadpoma117');
         foreach ([
-            ['id_usuario' => 1, 'nombres' => 'Carlos Alberto', 'apellidos' => 'Mendoza Ramos', 'username' => 'admin_mass', 'password_hash' => $password, 'estado' => 'activo', 'id_rol' => 1, 'id_tienda' => 1],
-            ['id_usuario' => 2, 'nombres' => 'Ana Sofia', 'apellidos' => 'Palacios Vega', 'username' => 'gerente_comas', 'password_hash' => $password, 'estado' => 'activo', 'id_rol' => 2, 'id_tienda' => 1],
-            ['id_usuario' => 3, 'nombres' => 'Luis Enrique', 'apellidos' => 'Flores Quispe', 'username' => 'cajero_luis', 'password_hash' => $password, 'estado' => 'activo', 'id_rol' => 3, 'id_tienda' => 1],
-            ['id_usuario' => 4, 'nombres' => 'Jorge Tapia', 'apellidos' => 'Sanchez Diaz', 'username' => 'almacen_jorge', 'password_hash' => $password, 'estado' => 'activo', 'id_rol' => 4, 'id_tienda' => 1],
-        ] as $usuario) {
-            Usuario::updateOrCreate(['id_usuario' => $usuario['id_usuario']], $usuario);
+            [1, 'Carlos Alberto', 'Mendoza Ramos', 'admin_mass', 1, 1],
+            [2, 'Ana Sofia', 'Palacios Vega', 'gerente_comas', 2, 1],
+            [3, 'Luis Enrique', 'Flores Quispe', 'cajero_luis', 3, 1],
+            [4, 'Jorge Luis', 'Tapia Sanchez', 'almacen_jorge', 4, 1],
+            [5, 'Mariela', 'Condori Huaman', 'cajera_maria', 3, 2],
+            [6, 'Rosa Elvira', 'Vargas Salazar', 'supervision_mass', 2, 3],
+        ] as [$id, $nombres, $apellidos, $username, $rol, $tienda]) {
+            Usuario::updateOrCreate(['id_usuario' => $id], [
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'username' => $username,
+                'password_hash' => $password,
+                'estado' => 'activo',
+                'id_rol' => $rol,
+                'id_tienda' => $tienda,
+            ]);
         }
 
         foreach ([
-            ['id_categoria' => 1, 'nombre_categoria' => 'Abarrotes y Despensa', 'descripcion' => 'Arroz, azúcar, fideos, aceites, conservas y salsas.'],
-            ['id_categoria' => 2, 'nombre_categoria' => 'Bebidas y Licores', 'descripcion' => 'Gaseosas, aguas, jugos, licores y rehidratantes.'],
-            ['id_categoria' => 3, 'nombre_categoria' => 'Lácteos y Embutidos', 'descripcion' => 'Leches, yogures, quesos, embutidos y mantequillas.'],
-            ['id_categoria' => 4, 'nombre_categoria' => 'Snacks y Confitería', 'descripcion' => 'Galletas, papitas, chocolates y dulces.'],
-            ['id_categoria' => 5, 'nombre_categoria' => 'Limpieza del Hogar', 'descripcion' => 'Detergentes, lavavajillas, limpiadores y desinfectantes.'],
-            ['id_categoria' => 6, 'nombre_categoria' => 'Cuidado Personal', 'descripcion' => 'Champús, jabones, desodorantes y pastas dentales.'],
-        ] as $categoria) {
-            Categoria::updateOrCreate(['id_categoria' => $categoria['id_categoria']], $categoria);
+            [1, 'Abarrotes y Despensa', 'Arroz, azucar, fideos, aceites, conservas y salsas.'],
+            [2, 'Bebidas y Licores', 'Gaseosas, aguas, jugos, cervezas y rehidratantes.'],
+            [3, 'Lacteos y Embutidos', 'Leches, yogures, quesos, mantequillas y embutidos.'],
+            [4, 'Snacks y Confiteria', 'Galletas, papitas, chocolates y dulces.'],
+            [5, 'Limpieza del Hogar', 'Detergentes, lavavajillas, limpiadores y desinfectantes.'],
+            [6, 'Cuidado Personal', 'Champu, jabones, desodorantes y pasta dental.'],
+        ] as [$id, $nombre, $descripcion]) {
+            Categoria::updateOrCreate(['id_categoria' => $id], [
+                'nombre_categoria' => $nombre,
+                'descripcion' => $descripcion,
+            ]);
         }
 
         foreach ([
-            [1, '7750111001234', 'Arroz Superior Costeño 1kg', 3.40, 4.20, 120, 15, 1],
-            [2, '7750222005678', 'Azúcar Rubia Cartavio 1kg', 3.10, 3.80, 85, 15, 1],
-            [3, '7501005112345', 'Aceite Vegetal Primor Premium 1L', 7.50, 9.40, 45, 10, 1],
-            [4, '7750333001111', 'Fideo Don Vittorio Espagueti 450g', 2.10, 2.70, 200, 20, 1],
-            [5, '7750444002222', 'Trozos de Atún Real en Aceite 170g', 4.20, 5.50, 60, 12, 1],
-            [6, '7750111003841', 'Arroz Integral Costeño 1kg', 4.10, 5.30, 35, 10, 1],
-            [7, '7750333004921', 'Fideo Don Vittorio Codito 450g', 2.10, 2.70, 140, 15, 1],
-            [8, '7891000341256', 'Salsa de Tomate Pomarola Compal 340g', 1.80, 2.40, 95, 12, 1],
-            [9, '7750221001024', 'Sal Mesa Bells Refinada 1kg', 1.10, 1.60, 180, 20, 1],
-            [10, '7750522001142', 'Vinagre Blanco Bells Botella 1L', 2.20, 3.10, 40, 8, 1],
-            [11, '7750014000315', 'Gaseosa Inca Kola Botella 2L', 4.80, 6.00, 90, 15, 2],
-            [12, '7750014000100', 'Gaseosa Coca-Cola Sin Azúcar 1.5L', 4.20, 5.30, 75, 15, 2],
-            [13, '7750888003333', 'Agua Mineral Cielo Sin Gas 625ml', 0.80, 1.50, 150, 25, 2],
-            [14, '7751234009999', 'Cerveza Cristal Lata 355ml', 3.50, 4.50, 8, 24, 2],
-            [15, '7750014002251', 'Gaseosa Fanta Naranja Botella 2L', 4.50, 5.80, 65, 12, 2],
-            [16, '7750888001142', 'Agua San Luis Con Gas 500ml', 0.90, 1.60, 110, 20, 2],
-            [17, '7752100003412', 'Jugo Frugos del Valle Durazno 1L', 3.20, 4.20, 55, 10, 2],
-            [18, '7750043001021', 'Bebida Energizante Volt Azul 500ml', 1.80, 2.50, 130, 15, 2],
-            [19, '7750006002549', 'Leche Evaporada Gloria Azul Lata 400g', 3.20, 4.10, 300, 30, 3],
-            [20, '7750006001108', 'Yogurt Gloria Fresa Botella 1kg', 4.90, 6.20, 35, 8, 3],
-            [21, '7750555003333', 'Mantequilla Laive con Sal Pote 200g', 4.50, 5.80, 3, 10, 3],
-            [22, '7750006004112', 'Leche UHT Gloria Entera Caja 1L', 3.60, 4.50, 80, 15, 3],
-            [23, '7750241002214', 'Queso Edam Laive Rebanado 200g', 6.90, 8.90, 24, 6, 3],
-            [24, '7750102003314', 'Jamonada Especial San Fernando 250g', 4.10, 5.50, 40, 8, 3],
-            [25, '7750102004415', 'Salchicha Huacho San Fernando 200g', 3.80, 4.90, 18, 5, 3],
-            [26, '7750666004444', 'Galletas Soda Field Paquete Familiar', 3.10, 4.00, 110, 15, 4],
-            [27, '7501011132023', 'Papas Lays Clásicas Familiares 160g', 5.20, 6.80, 42, 10, 4],
-            [28, '7750777008888', 'Chocolate Sublime Clásico 30g', 1.20, 1.80, 250, 35, 4],
-            [29, '7750666001124', 'Galletas Casino Menta Paquete x6', 2.80, 3.60, 85, 12, 4],
-            [30, '7501011140021', 'Doritos Mega Queso Familiar 150g', 5.30, 6.90, 38, 10, 4],
-            [31, '7750999001111', 'Detergente Opal Fuerza Ultra 800g', 6.80, 8.50, 50, 10, 5],
-            [32, '7750999002222', 'Lavavajillas Líquido Ayudín Limón 500ml', 4.10, 5.40, 38, 8, 5],
-            [33, '7751111004444', 'Limpiador Líquido Poett Bebé 900ml', 4.60, 5.90, 30, 6, 5],
-            [34, '7750124001152', 'Cloro Tradicional Clorox Botella 930ml', 2.80, 3.70, 70, 12, 5],
-            [35, '7750999004412', 'Detergente Líquido Ariel Concentrado 800ml', 9.50, 12.40, 28, 5, 5],
-            [36, '7501001156789', 'Crema Dental Colgate Triple Acción 75ml', 3.80, 4.90, 65, 12, 6],
-            [37, '7751222003333', 'Jabón de Tocador Bolívar Glicerina 120g', 2.10, 2.90, 4, 15, 6],
-            [38, '7501001160021', 'Champú Sedal Ceramidas Botella 340ml', 8.50, 11.20, 32, 6, 6],
-            [39, '7702003011421', 'Desodorante Rexona Clinical Aerosol 150ml', 11.80, 15.50, 25, 5, 6],
-            [40, '7501001170241', 'Enjuague Bucal Colgate Plax Menta 250ml', 7.20, 9.80, 22, 4, 6],
-        ] as [$id, $codigo, $descripcion, $costo, $venta, $stock, $minimo, $categoria]) {
+            [1, 'Distribuidora Lima Norte', '20548796521', 'Distribuidora Lima Norte S.A.C.', '987654321', 'ventas@limanorte.pe', 'Av. Alfredo Mendiola 6200, Los Olivos'],
+            [2, 'Abarrotes del Peru', '20601478563', 'Abarrotes del Peru E.I.R.L.', '976542118', 'pedidos@abarrotesperu.pe', 'Jr. Huallaga 420, Lima'],
+            [3, 'Bebidas Andinas', '20478563219', 'Bebidas Andinas S.A.C.', '965874123', 'comercial@bebidasandinas.pe', 'Av. Argentina 3090, Callao'],
+            [4, 'Lacteos del Sur', '20563214789', 'Lacteos del Sur S.R.L.', '954321778', 'ventas@lacteosdelsur.pe', 'Av. Industrial 155, Ate'],
+            [5, 'Limpieza Hogar Peru', '20657891432', 'Limpieza Hogar Peru S.A.C.', '943218765', 'contacto@limpiezahogar.pe', 'Av. Nicolas Ayllon 1980, Santa Anita'],
+            [6, 'Consumo Masivo Sol', '20591478326', 'Consumo Masivo Sol E.I.R.L.', '932145678', 'ventas@cmsol.pe', 'Av. Universitaria 1890, San Miguel'],
+        ] as [$id, $nombre, $ruc, $razon, $telefono, $correo, $direccion]) {
+            Proveedor::updateOrCreate(['id_proveedor' => $id], [
+                'nombre' => $nombre,
+                'ruc' => $ruc,
+                'razon_social' => $razon,
+                'telefono' => $telefono,
+                'correo' => $correo,
+                'direccion' => $direccion,
+            ]);
+        }
+
+        $productos = [
+            [1, '7750111001234', 'Arroz Superior Costeno 1kg', 3.40, 4.20, 120, 15, 1, 2],
+            [2, '7750222005678', 'Azucar Rubia Cartavio 1kg', 3.10, 3.80, 85, 15, 1, 2],
+            [3, '7501005112345', 'Aceite Vegetal Primor 1L', 7.50, 9.40, 45, 10, 1, 1],
+            [4, '7750333001111', 'Fideo Don Vittorio Espagueti 450g', 2.10, 2.70, 200, 20, 1, 1],
+            [5, '7750444002222', 'Trozos de Atun Real 170g', 4.20, 5.50, 60, 12, 1, 6],
+            [6, '7750014000315', 'Gaseosa Inca Kola 2L', 4.80, 6.00, 90, 15, 2, 3],
+            [7, '7750014000100', 'Gaseosa Coca-Cola Sin Azucar 1.5L', 4.20, 5.30, 75, 15, 2, 3],
+            [8, '7750888003333', 'Agua Mineral Cielo 625ml', 0.80, 1.50, 150, 25, 2, 3],
+            [9, '7751234009999', 'Cerveza Cristal Lata 355ml', 3.50, 4.50, 8, 24, 2, 3],
+            [10, '7750006002549', 'Leche Evaporada Gloria 400g', 3.20, 4.10, 300, 30, 3, 4],
+            [11, '7750006001108', 'Yogurt Gloria Fresa 1kg', 4.90, 6.20, 35, 8, 3, 4],
+            [12, '7750555003333', 'Mantequilla Laive con Sal 200g', 4.50, 5.80, 3, 10, 3, 4],
+            [13, '7750666004444', 'Galletas Soda Field Familiar', 3.10, 4.00, 110, 15, 4, 6],
+            [14, '7501011132023', 'Papas Lays Clasicas 160g', 5.20, 6.80, 42, 10, 4, 6],
+            [15, '7750777008888', 'Chocolate Sublime Clasico 30g', 1.20, 1.80, 250, 35, 4, 6],
+            [16, '7750999001111', 'Detergente Opal Ultra 800g', 6.80, 8.50, 50, 10, 5, 5],
+            [17, '7750999002222', 'Lavavajillas Ayudin Limon 500ml', 4.10, 5.40, 38, 8, 5, 5],
+            [18, '7751111004444', 'Limpiador Poett Bebe 900ml', 4.60, 5.90, 30, 6, 5, 5],
+            [19, '7501001156789', 'Crema Dental Colgate Triple Accion 75ml', 3.80, 4.90, 65, 12, 6, 6],
+            [20, '7751222003333', 'Jabon Bolivar Glicerina 120g', 2.10, 2.90, 4, 15, 6, 6],
+        ];
+
+        foreach ($productos as [$id, $codigo, $descripcion, $costo, $venta, $stock, $minimo, $categoria, $proveedor]) {
             Producto::updateOrCreate(['id_producto' => $id], [
                 'codigo_barras' => $codigo,
                 'descripcion' => $descripcion,
@@ -105,51 +124,114 @@ class DatabaseSeeder extends Seeder
                 'stock_actual' => $stock,
                 'stock_minimo' => $minimo,
                 'id_categoria' => $categoria,
+                'id_proveedor' => $proveedor,
             ]);
-        $auditorias = [
-            [1, 1, 'SISTEMA', 'INSERCIÓN', 'Inicialización e inyección del esquema DDL del núcleo transaccional.', '192.168.1.50', now()->subDays(10)],
-            [2, 1, 'SEGURIDAD', 'INSERCIÓN', 'Alta del catálogo inicial de roles del sistema RBAC basados en RUP.', '192.168.1.50', now()->subDays(10)],
-            [3, 1, 'CONFIGURACIÓN', 'MODIFICACIÓN', 'Establecimiento del parámetro IGV nacional al 18.00% por defecto.', '192.168.1.50', now()->subDays(10)],
-            [4, 1, 'TIENDAS', 'INSERCIÓN', 'Registro inicial de los 3 locales autorizados de tiendas MASS Perú.', '192.168.1.50', now()->subDays(10)],
-            [5, 1, 'USUARIOS', 'INSERCIÓN', 'Creación de credenciales para el usuario administrador corporativo: admin_mass.', '192.168.1.50', now()->subDays(9)],
-            [6, 1, 'USUARIOS', 'INSERCIÓN', 'Creación de cuenta operativa para el rol Gerente: gerente_comas.', '192.168.1.50', now()->subDays(9)],
-            [7, 1, 'USUARIOS', 'INSERCIÓN', 'Creación de cuenta operativa para el rol Cajero POS: cajero_luis.', '192.168.1.50', now()->subDays(9)],
-            [8, 1, 'USUARIOS', 'INSERCIÓN', 'Creación de cuenta operativa para el rol Almacenero: almacen_jorge.', '192.168.1.50', now()->subDays(9)],
-            [9, 1, 'CATÁLOGO', 'INSERCIÓN', 'Configuración de las 6 categorías maestras de distribución comercial.', '192.168.1.52', now()->subDays(8)],
-            [10, 1, 'CATÁLOGO', 'INSERCIÓN', 'Carga masiva mediante script de los 40 artículos del inventario de consumo masivo.', '192.168.1.52', now()->subDays(8)],
-            [11, null, 'AUTENTICACIÓN', 'ACCESO_FALLIDO', 'Intento de inicio de sesión denegado. Usuario no registrado: usr_test_01.', '192.168.1.104', now()->subDays(7)],
-            [12, 2, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión exitoso en terminal gerencial. Usuario: gerente_comas.', '192.168.1.100', now()->subDays(7)],
-            [13, 2, 'CATÁLOGO', 'ACCESO', 'Consulta general analítica del catálogo maestro de productos de la tienda.', '192.168.1.100', now()->subDays(7)],
-            [14, 2, 'AUTENTICACIÓN', 'CIERRE', 'Cierre de sesión seguro en terminal gerencial por inactividad prolongada.', '192.168.1.100', now()->subDays(7)],
-            [15, 4, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión exitoso en terminal de almacén. Usuario: almacen_jorge.', '192.168.1.105', now()->subDays(6)],
-            [16, 4, 'INVENTARIO', 'INSERCIÓN', 'Entrada física: lote de 150 und. de Arroz Costeño por camión de distribución.', '192.168.1.105', now()->subDays(6)],
-            [17, 4, 'INVENTARIO', 'INSERCIÓN', 'Entrada física: lote de 300 und. de Leche Gloria Lata desde almacén central.', '192.168.1.105', now()->subDays(6)],
-            [18, 4, 'INVENTARIO', 'MODIFICACIÓN', 'Registro de merma: 6 latas de atún descartadas por abolladura crítica.', '192.168.1.105', now()->subDays(5)],
-            [19, 4, 'AUTENTICACIÓN', 'CIERRE', 'Cierre de sesión manual ejecutado desde el entorno de almacén.', '192.168.1.105', now()->subDays(5)],
-            [20, 3, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión exitoso en terminal POS-01 de caja. Usuario: cajero_luis.', '192.168.1.200', now()->subDays(4)],
-            [21, 3, 'CAJA', 'MODIFICACIÓN', 'Apertura de caja chica POS activa con saldo base inicial de S/ 150.00.', '192.168.1.200', now()->subDays(4)],
-            [22, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000001.', '192.168.1.200', now()->subDays(4)],
-            [23, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000002.', '192.168.1.200', now()->subDays(4)],
-            [24, null, 'AUTENTICACIÓN', 'ACCESO_FALLIDO', 'Intento de inicio de sesión denegado. Contraseña errónea para: admin_mass.', '192.168.1.55', now()->subDays(3)],
-            [25, 1, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión exitoso de superusuario desde IP de soporte técnico.', '192.168.1.55', now()->subDays(3)],
-            [26, 1, 'USUARIOS', 'MODIFICACIÓN', 'Actualización de estado civil y correo electrónico del usuario cajero_luis.', '192.168.1.55', now()->subDays(3)],
-            [27, 1, 'REPORTES', 'ACCESO', 'Extracción y exportación del historial completo de registros técnicos a PDF.', '192.168.1.55', now()->subDays(3)],
-            [28, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Factura N.° F001-00000001 para cliente con RUC.', '192.168.1.200', now()->subDays(2)],
-            [29, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000003.', '192.168.1.200', now()->subDays(2)],
-            [30, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000004.', '192.168.1.200', now()->subDays(2)],
-            [31, 3, 'CAJA', 'MODIFICACIÓN', 'Cierre y arqueo de caja POS-01 efectuado. Consolidado sin mermas.', '192.168.1.200', now()->subDays(2)],
-            [32, 2, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión exitoso en entorno gerencial. Usuario: gerente_comas.', '192.168.1.100', now()->subDay()],
-            [33, 2, 'REPORTES', 'ACCESO', 'Generación de reporte analítico mensual consolidado de ventas del local.', '192.168.1.100', now()->subDay()],
-            [34, 4, 'INVENTARIO', 'MODIFICACIÓN', 'Registro de desmedro: 2 potes de Mantequilla Laive por pérdida de cadena de frío.', '192.168.1.105', now()->subHours(12)],
-            [35, 2, 'INVENTARIO', 'ACCESO', 'Auditoría interna visual de alertas críticas por quiebre de stock mínimo.', '192.168.1.100', now()->subHours(6)],
-            [36, 3, 'AUTENTICACIÓN', 'ACCESO', 'Inicio de sesión matutino en caja POS-01. Usuario: cajero_luis.', '192.168.1.200', now()->subHours(2)],
-            [37, 3, 'CAJA', 'MODIFICACIÓN', 'Apertura de caja diaria POS-01 registrada con S/ 150.00 en efectivo base.', '192.168.1.200', now()->subHours(2)],
-            [38, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000005.', '192.168.1.200', now()->subMinutes(45)],
-            [39, 3, 'VENTAS', 'INSERCIÓN', 'Procesamiento de venta POS exitoso. Boleta N.° B001-00000006.', '192.168.1.200', now()->subMinutes(15)],
-            [40, 1, 'SEGURIDAD', 'ACCESO', 'Ingreso de control al panel general para supervisión en vivo del sistema.', '192.168.1.55', now()],
+        }
+
+        foreach ([
+            [1, 1, 'ENTRADA', 80, 'Ingreso por compra a proveedor', $now->copy()->subDays(6)],
+            [2, 6, 'ENTRADA', 60, 'Reposicion de bebidas', $now->copy()->subDays(5)],
+            [3, 9, 'SALIDA', 16, 'Venta y merma por vencimiento cercano', $now->copy()->subDays(4)],
+            [4, 12, 'SALIDA', 5, 'Ajuste por cadena de frio', $now->copy()->subDays(3)],
+            [5, 16, 'ENTRADA', 30, 'Ingreso de limpieza', $now->copy()->subDays(2)],
+            [6, 20, 'SALIDA', 8, 'Salida por venta directa', $now->copy()->subDay()],
+        ] as [$id, $producto, $tipo, $cantidad, $motivo, $fecha]) {
+            InventarioMovimiento::updateOrCreate(['id_movimiento' => $id], [
+                'id_producto' => $producto,
+                'tipo_movimiento' => $tipo,
+                'cantidad' => $cantidad,
+                'motivo' => $motivo,
+                'fecha_movimiento' => $fecha,
+            ]);
+        }
+
+        $ventas = [
+            [1, $now->copy()->subDays(6)->setTime(10, 15), 'efectivo', 3, [[1, 2], [6, 1], [13, 3]], 'BOLETA', 'B001', 1, null],
+            [2, $now->copy()->subDays(5)->setTime(12, 40), 'yape', 3, [[10, 4], [15, 5]], 'BOLETA', 'B001', 2, null],
+            [3, $now->copy()->subDays(4)->setTime(18, 5), 'tarjeta', 5, [[3, 1], [4, 3], [7, 2]], 'FACTURA', 'F001', 1, '20548796521'],
+            [4, $now->copy()->subDays(3)->setTime(9, 25), 'efectivo', 3, [[2, 3], [8, 6], [19, 2]], 'BOLETA', 'B001', 3, null],
+            [5, $now->copy()->subDays(2)->setTime(20, 10), 'plin', 5, [[14, 2], [17, 1], [18, 1]], 'BOLETA', 'B001', 4, null],
+            [6, $now->copy()->subDay()->setTime(16, 50), 'efectivo', 3, [[5, 2], [11, 1], [16, 1]], 'BOLETA', 'B001', 5, null],
+            [7, $now->copy()->setTime(8, 45), 'yape', 3, [[1, 1], [10, 2], [15, 4]], 'BOLETA', 'B001', 6, null],
+            [8, $now->copy()->setTime(13, 20), 'tarjeta', 5, [[6, 2], [7, 1], [20, 2]], 'FACTURA', 'F001', 2, '20601478563'],
         ];
 
-        foreach ($auditorias as [$id, $usuario, $modulo, $accion, $descripcion, $ip, $fecha]) {
+        foreach ($ventas as [$id, $fecha, $metodo, $usuario, $items, $tipo, $serie, $correlativo, $documento]) {
+            $neto = collect($items)->sum(fn ($item) => (float) Producto::find($item[0])->precio_venta * $item[1]);
+            $igv = round($neto * 0.18, 2);
+            Venta::updateOrCreate(['id_venta' => $id], [
+                'fecha_hora' => $fecha,
+                'total_neto' => $neto,
+                'igv' => $igv,
+                'total_pagar' => $neto + $igv,
+                'metodo_pago' => $metodo,
+                'id_usuario' => $usuario,
+            ]);
+
+            foreach ($items as $index => [$productoId, $cantidad]) {
+                $producto = Producto::find($productoId);
+                DetalleVenta::updateOrCreate(['id_detalle' => ($id * 10) + $index], [
+                    'id_venta' => $id,
+                    'id_producto' => $productoId,
+                    'cantidad' => $cantidad,
+                    'precio_unitario' => $producto->precio_venta,
+                    'subtotal' => (float) $producto->precio_venta * $cantidad,
+                ]);
+            }
+
+            Comprobante::updateOrCreate(['id_comprobante' => $id], [
+                'id_venta' => $id,
+                'tipo_comprobante' => $tipo,
+                'serie' => $serie,
+                'correlativo' => $correlativo,
+                'documento_cliente' => $documento,
+            ]);
+        }
+
+        foreach ([
+            ['72845163', 'Lucia', 'Rojas Campos', '987321456', 'lucia.rojas@mail.com', 'Jr. Los Fresnos 145, Comas'],
+            ['46123985', 'Miguel Angel', 'Castillo Vega', '956874120', 'miguel.castillo@mail.com', 'Av. Las Palmeras 330, Los Olivos'],
+            ['70321458', 'Fiorella', 'Salazar Huerta', '965214789', 'fiorella.salazar@mail.com', 'Calle Los Cedros 280, Independencia'],
+            ['45879632', 'Pedro Luis', 'Quispe Arias', '943785612', 'pedro.quispe@mail.com', 'Av. Peru 1880, San Martin de Porres'],
+            ['76985412', 'Valeria', 'Paredes Nunez', '932147865', 'valeria.paredes@mail.com', 'Jr. Manco Capac 557, Lima'],
+        ] as [$dni, $nombres, $apellidos, $telefono, $correo, $direccion]) {
+            DB::table('clientes')->updateOrInsert(['dni' => $dni], [
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'telefono' => $telefono,
+                'correo' => $correo,
+                'direccion' => $direccion,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
+
+        foreach ([
+            ['72984516', 'Carlos Alberto', 'Mendoza Ramos', '987654321', 'Administrador', 1, '2024-03-01'],
+            ['70451238', 'Ana Sofia', 'Palacios Vega', '976541230', 'Gerente de Tienda', 1, '2024-05-15'],
+            ['71896543', 'Luis Enrique', 'Flores Quispe', '965874120', 'Cajero', 1, '2025-01-10'],
+            ['70589632', 'Jorge Luis', 'Tapia Sanchez', '954321789', 'Almacenero', 1, '2025-02-20'],
+            ['76231458', 'Mariela', 'Condori Huaman', '943217865', 'Cajero', 2, '2025-04-12'],
+        ] as [$dni, $nombres, $apellidos, $telefono, $cargo, $tienda, $ingreso]) {
+            DB::table('empleados')->updateOrInsert(['dni' => $dni], [
+                'nombres' => $nombres,
+                'apellidos' => $apellidos,
+                'telefono' => $telefono,
+                'cargo' => $cargo,
+                'id_tienda' => $tienda,
+                'fecha_ingreso' => $ingreso,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
+
+        foreach ([
+            [1, 1, 'SISTEMA', 'CONFIGURACION', 'Carga inicial de datos operativos para demostracion del POS.', '127.0.0.1', $now->copy()->subDays(6)],
+            [2, 1, 'USUARIOS', 'INSERCION', 'Creacion de usuarios demo para roles del sistema.', '127.0.0.1', $now->copy()->subDays(6)],
+            [3, 4, 'INVENTARIO', 'ENTRADA', 'Registro de ingreso de productos desde proveedores peruanos.', '127.0.0.1', $now->copy()->subDays(5)],
+            [4, 3, 'VENTAS', 'INSERCION', 'Venta POS de prueba con boleta electronica.', '127.0.0.1', $now->copy()->subDays(3)],
+            [5, 2, 'REPORTES', 'ACCESO', 'Consulta de dashboard con ventas e inventario valorizado.', '127.0.0.1', $now],
+        ] as [$id, $usuario, $modulo, $accion, $descripcion, $ip, $fecha]) {
             Auditoria::updateOrCreate(['id_auditoria' => $id], [
                 'id_usuario' => $usuario,
                 'modulo_afectado' => $modulo,

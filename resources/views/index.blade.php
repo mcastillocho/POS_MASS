@@ -424,7 +424,6 @@
         <select id="inv-tipo">
           <option value="entrada"> Entrada</option>
           <option value="salida"> Salida</option>
-          <option value="ajuste"> Ajuste</option>
         </select>
       </div>
       <div class="form-field"><label>Producto *</label><select id="inv-producto-sel"></select></div>

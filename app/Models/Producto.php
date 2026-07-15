@@ -11,11 +11,16 @@ class Producto extends Model
     protected $table = 'productos';
     protected $primaryKey = 'id_producto';
 
-    protected $fillable = ['codigo_barras', 'descripcion', 'precio_costo', 'precio_venta', 'stock_actual', 'stock_minimo', 'id_categoria'];
+    protected $fillable = ['codigo_barras', 'descripcion', 'precio_costo', 'precio_venta', 'stock_actual', 'stock_minimo', 'id_categoria', 'id_proveedor'];
 
     public function categoria(): BelongsTo
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
+    }
+
+    public function proveedor(): BelongsTo
+    {
+        return $this->belongsTo(Proveedor::class, 'id_proveedor', 'id_proveedor');
     }
 
     public function movimientosInventario(): HasMany
