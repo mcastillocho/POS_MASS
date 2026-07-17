@@ -256,8 +256,8 @@
             <label style="font-size:10px">Hasta</label>
             <input type="date" id="v-hasta" style="padding:8px 12px">
           </div>
-          <button class="btn btn-secondary">Filtrar</button>
-          <button class="btn btn-success btn-sm">Exportar</button>
+          <button class="btn btn-secondary" id="btn-filtrar-ventas">Filtrar</button>
+          <button class="btn btn-success btn-sm" id="btn-exportar-ventas">Exportar</button>
         </div>
         <div class="table-wrap">
           <table>
@@ -328,8 +328,8 @@
           </select>
           <input type="date" id="rep-desde" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
           <input type="date" id="rep-hasta" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:8px;font-size:13px">
-          <button class="btn btn-primary">Generar</button>
-          <button class="btn btn-success btn-sm">Exportar CSV</button>
+          <button class="btn btn-primary" id="btn-generar-reporte">Generar</button>
+          <button class="btn btn-success btn-sm" id="btn-exportar-csv">Exportar CSV</button>
         </div>
         <div id="reporte-summary" class="report-summary"></div>
         <div class="table-wrap">
@@ -357,7 +357,7 @@
             <option value="Usuarios">Usuarios</option>
             <option value="Clientes">Clientes</option>
           </select>
-          <button class="btn btn-secondary">Filtrar</button>
+          <button class="btn btn-secondary" id="btn-filtrar-auditoria">Filtrar</button>
         </div>
         <div class="table-wrap">
           <table>
