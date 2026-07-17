@@ -54,7 +54,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /opt/ferreteria-abad
+            cd /opt/mass
             echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u mcastillocho --password-stdin
             docker compose pull mass_php_app
             docker compose down
